@@ -1,0 +1,12 @@
+---
+- import_tasks: install_package.yml
+- import_tasks: install_docker.yml
+- import_tasks: set_hostname.yml
+- import_tasks: set_time.yml
+- import_tasks: set_network.yml
+- import_tasks: install_golang.yml
+- import_tasks: install_cni.yml
+- import_tasks: install_etcd.yml
+- import_tasks: git_clone.yml
+- import_tasks: build.yml
+- import_tasks: start_etcd.yml

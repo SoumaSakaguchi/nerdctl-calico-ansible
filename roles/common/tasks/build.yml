@@ -1,0 +1,147 @@
+---
+- name: build runc
+  ansible.builtin.shell:
+    cmd: go build -o ./bin/ .
+    chdir: /home/vagrant/runc
+  environment: 
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+
+#- name: Remove older runc
+#  file:
+#    path: /usr/bin/runc
+#    state: absent
+#  become: yes
+
+- name: install runc
+  ansible.builtin.copy:
+    src: /home/vagrant/runc/bin/runc
+    dest: /usr/bin/
+    remote_src: yes
+    mode: 0755
+  become: yes
+
+- name: build containerd
+  ansible.builtin.shell:
+    cmd: go build -o ./bin/ ./cmd/containerd
+    chdir: /home/vagrant/containerd
+  environment: 
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+
+#- name: Remove older containerd
+#  file:
+#    path: /usr/bin/containerd
+#    state: absent
+#  become: yes
+
+- name: install containerd
+  ansible.builtin.copy:
+    src: /home/vagrant/containerd/bin/containerd
+    dest: /usr/bin/
+    remote_src: yes
+    mode: 0755
+  become: yes
+
+- name: build ctr
+  ansible.builtin.shell:
+    cmd: go build -o ./bin/ ./cmd/ctr
+    chdir: /home/vagrant/containerd
+  environment: 
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+
+- name: install ctr
+  ansible.builtin.copy:
+    src: /home/vagrant/containerd/bin/ctr
+    dest: /usr/bin/
+    remote_src: yes
+    mode: 0755
+  become: yes
+
+- name: build containerd-shim
+  ansible.builtin.shell:
+    cmd: go build -o ./bin/ ./cmd/containerd-shim
+    chdir: /home/vagrant/containerd
+  environment:
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+
+- name: install containerd-shim
+  ansible.builtin.copy:
+    src: /home/vagrant/containerd/bin/containerd-shim
+    dest: /usr/bin/
+    remote_src: yes
+    mode: 0755
+  become: yes
+
+- name: build containerd-shim-runc-v1
+  ansible.builtin.shell:
+    cmd: go build -o ./bin/ ./cmd/containerd-shim-runc-v1
+    chdir: /home/vagrant/containerd
+  environment: 
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+
+- name: install containerd-shim-runc-v1
+  ansible.builtin.copy:
+    src: /home/vagrant/containerd/bin/containerd-shim-runc-v1
+    dest: /usr/bin/
+    remote_src: yes
+    mode: 0755
+  become: yes
+
+- name: build containerd-shim-runc-v2
+  ansible.builtin.shell:
+    cmd: go build -o ./bin/ ./cmd/containerd-shim-runc-v2
+    chdir: /home/vagrant/containerd
+  environment: 
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+
+- name: install containerd-shim-runc-v2
+  ansible.builtin.copy:
+    src: /home/vagrant/containerd/bin/containerd-shim-runc-v2
+    dest: /usr/bin/
+    remote_src: yes
+    mode: 0755
+  become: yes
+
+- name: build nerdctl
+  ansible.builtin.shell:
+    cmd: go build -o ./bin/ ./cmd/nerdctl
+    chdir: /home/vagrant/nerdctl
+  environment: 
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+
+- name: install nerdctl
+  ansible.builtin.copy:
+    src: /home/vagrant/nerdctl/bin/nerdctl
+    dest: /usr/local/bin/
+    remote_src: yes
+    mode: 0755
+  become: yes
+
+- name: build calico
+  ansible.builtin.shell:
+    cmd: go build -o ./bin/ ./cni-plugin/cmd/calico
+    chdir: /home/vagrant/calico
+  environment: 
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+
+- name: install calico
+  ansible.builtin.copy:
+    src: /home/vagrant/calico/bin/calico
+    dest: /opt/cni/bin/
+    remote_src: yes
+    mode: 0755
+  become: yes
+
+- name: build calico-ipam
+  ansibe.builtin.shell:
+    cmd: go build -o ./bin/ ./node/cmd/calico-ipam
+    chdir: /home/vagrant/calico
+  environment:
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+
+- name: install calico-ipam
+  ansible.builtin.copy:
+    src: /home/vagrant/calico/bin/calico-ipam
+    dest: /opt/cni/bin/
+    remote_src: yes
+    mode: 0755
+  become: yes

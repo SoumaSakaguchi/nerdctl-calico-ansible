@@ -1,0 +1,16 @@
+{
+	"cniVersion": "1.0.0",
+	"name": "99-calico",
+	"plugins": [
+		{
+			"datastore_type": "etcdv3",
+			"etcd_endpoints": "http://127.0.0.1:2379,http://192.168.22.11:2379",
+			"log_level": "DEBUG",
+			"log_file_path": "/var/log/calico/cni/cni.log",
+			"type": "calico",
+			"ipam": {
+				"type": "calico-ipam"
+			}
+		}
+	]
+}

@@ -1,0 +1,29 @@
+---
+- name: automatically restert for Daemons using outdated libraries
+  lineinfile:
+    path: /etc/needrestart/needrestart.conf
+    line: "$nrconf{restart} = 'a'"
+    create: yes
+  become: yes
+
+- name: apt update
+  apt:
+    update_cache: yes
+  become: yes
+
+- name: apt install
+  apt:
+    name:
+      - vim
+      - apt-transport-https
+      - curl
+      - gpg
+      - git
+      - gcc
+      - ntp
+      - ntpdate
+      - ca-certificates
+      - gnupg
+      - lsb-release
+      - make
+  become: yes

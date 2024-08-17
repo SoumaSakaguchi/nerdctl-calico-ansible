@@ -1,0 +1,28 @@
+- name: get etcd
+  ansible.builtin.get_url:
+    dest: /tmp
+    url: https://storage.googleapis.com/etcd/v3.5.14/etcd-v3.5.14-linux-amd64.tar.gz
+  become: yes
+
+- name: tar -xzf etcd-v3.5.14-linux-amd64.tar.gz
+  ansible.builtin.unarchive:
+    src: /tmp/etcd-v3.5.14-linux-amd64.tar.gz
+    dest: /tmp/
+    remote_src: yes
+  become: yes
+
+- name: copy etcd
+  ansible.builtin.copy:
+    src: /tmp/etcd-v3.5.14-linux-amd64/etcd
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: 0755
+  become: yes
+
+- name: copy etcdctl
+  ansible.builtin.copy:
+    src: /tmp/etcd-v3.5.14-linux-amd64/etcdctl
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: 0755
+  become: yes

@@ -1,0 +1,5 @@
+---
+- hosts: calico_node2
+  roles:
+    - common
+    - node2

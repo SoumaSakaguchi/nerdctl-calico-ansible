@@ -1,0 +1,24 @@
+---
+- name: git clone runc -b release-1.1
+  ansible.builtin.git:
+    repo: https://github.com/opencontainers/runc.git
+    dest: /home/vagrant/runc
+    version: release-1.1
+
+- name: git clone containerd -b v1.7.1
+  ansible.builtin.git:
+    repo: https://github.com/containerd/containerd.git
+    dest: /home/vagrant/containerd
+    version: v1.7.1
+
+- name: git clone nerdctl -b release/1.7
+  ansible.builtin.git:
+    repo: https://github.com/containerd/nerdctl.git
+    dest: /home/vagrant/nerdctl
+    version: release/1.7
+
+- name: git clone calico -b release-v3.28
+  ansible.builtin.git:
+    repo: https://github.com/projectcalico/calico.git
+    dest: /home/vagrant/calico
+    version: release-v3.28

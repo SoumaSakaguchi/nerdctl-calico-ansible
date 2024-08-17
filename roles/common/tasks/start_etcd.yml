@@ -1,0 +1,24 @@
+---
+- name: add service_name in /etc/hosts
+  ansible.builtin.blockinfile:
+    path: /etc/hosts
+    block: |
+      192.168.22.10 calico-node1
+      192.168.22.11 calico-node2
+    state: present
+  become: yes
+
+- name: mkdir etcd_dir
+  file:
+    path: /home/vagrant/etcd_dir
+    state: directory
+    mode: 0755
+
+# バックグラウンド実行ができなさそうだったので、一旦保留
+# systemdにするのが良さそう
+#- name: start etcd each nodes
+#  ansible.builtin.shell:
+#    cmd: /bin/bash -lc "screen etcd --name {{ inventory_hostname }} --listen-peer-urls http://{{ vagrant_ipaddr }}:2380 --listen-client-urls http://0.0.0.0:2379 --initial-advertise-peer-urls http://{{ vagrant_ipaddr }}:2380 --initial-cluster calico-node1=http://192.168.22.10:2380,calico-node2=http://192.168.22.11:2380 --initial-cluster-state new --initial-cluster-token etcd-cluster --advertise-client-urls http://{{ vagrant_ipaddr }}:2379 &"
+#    chdir: /home/vagrant/etcd_dir
+#  async: 1
+#  poll: 0

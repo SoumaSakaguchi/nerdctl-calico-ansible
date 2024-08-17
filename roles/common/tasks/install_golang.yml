@@ -1,0 +1,36 @@
+---
+- name: curl https://golang.org/dl/go1.22.2.linux-amd64.tar.gz -O -L
+  ansible.builtin.get_url:
+    dest: /tmp
+    url: https://golang.org/dl/go1.22.2.linux-amd64.tar.gz
+  become: yes
+
+- name: tar -xzf go1.22.2.linux-amd64.tar.gz
+  ansible.builtin.unarchive:
+    src: /tmp/go1.22.2.linux-amd64.tar.gz
+    dest: /usr/local/
+    remote_src: yes
+  become: yes
+
+- name: mv /usr/local/go /usr/local/go1.22.2.linux-amd64
+  ansible.builtin.shell: mv /usr/local/go /usr/local/go1.22.2.linux-amd64
+  become: yes
+
+- name: sudo ln -s /usr/local/go1.22.2.linux-amd64.tar.gz /usr/local/go
+  file:
+    src: /usr/local/go1.22.2.linux-amd64
+    dest: /usr/local/go
+    state: link
+  become: yes
+
+- name: echo "PATH=/usr/local/go/bin:$PATH" >> ~/.bashrc
+  lineinfile:
+    path: /home/vagrant/.bashrc
+    line: 'PATH=/usr/local/go/bin:$PATH'
+    create: yes
+
+- name: echo "GOPATH=$HOME/go" >> ~/.bashrc
+  lineinfile:
+    path: /home/vagrant/.bashrc
+    line: 'GOPATH=$HOME/go'
+    create: yes

@@ -1,0 +1,24 @@
+---
+- name: enable ntp
+  ansible.builtin.systemd:
+    name: ntp
+    enabled: true
+    masked: no
+  become: yes
+
+- name: stop ntp
+  ansible.builtin.systemd:
+    name: ntp
+    state: stopped
+  become: yes
+
+- name: ntpdate ntp.nict.jp
+  ansible.builtin.shell:
+    cmd: ntpdate ntp.nict.jp
+  become: yes
+
+- name: restart ntp
+  ansible.builtin.systemd:
+    name: ntp
+    state: started
+  become: yes
